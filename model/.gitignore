@@ -1,2 +1,4 @@
 __pycache__/
 dataset/
+word2index.txt
+constellator.onnx
