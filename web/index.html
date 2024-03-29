@@ -11,7 +11,7 @@
         <script src="https://pulipulichen.github.io/jieba-js/jquery.js"></script>
         <script src="https://pulipulichen.github.io/jieba-js/require-jieba-js.js"></script>
         <script src="./word2index.js"></script>
-        
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
         <style>
@@ -107,13 +107,13 @@
                 // Using Jieba to split text.
                 call_jieba_cut(text_input.value, function (result) {
                     result.forEach((e) => {
-                        if (word2index[e] == undefined) array.push(BigInt(word2index["<PAD>"]));
-                        else array.push(BigInt(word2index[e]));
+                        if (word2index[e] == undefined) array.push(word2index["<PAD>"]);
+                        else array.push(word2index[e]);
                     });
                 });
 
                 while (array.length < 32) {
-                    array.push(BigInt(word2index["<PAD>"]));
+                    array.push(word2index["<PAD>"]);
                 }
 
                 return array.slice(0, 32);
@@ -126,11 +126,8 @@
                     // Load model.
                     const model = await ort.InferenceSession.create('./constellator.onnx');
 
-                    // Convert array to BigInt64Array.
-                    const rawData = BigInt64Array.from(array);
-
                     // Convert array to tensor.
-                    const tensor = new ort.Tensor('int64', rawData, [1, 32]);
+                    const tensor = new ort.Tensor('int64', array, [1, 32]);
 
                     // Get output from model.
                     const results = await model.run({ "input.1": tensor });
