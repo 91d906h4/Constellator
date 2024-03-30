@@ -2,6 +2,16 @@
 
 A text-based constellation analysis AI.
 
+## Usage
+
+1. Access [Constellator](https://91d906h4.github.io/constellator/)
+2. Input a prompt string like "神秘內斂，充滿了熱情和直覺，擁有強烈的意志力和洞察力".
+3. Press "分析！" button, then you will get the result like this:
+
+<div style="text-align: center;">
+    <img src="./asset/image.png" />
+</div>
+
 ## Barnum Effect
 
 Many (almost all) astrological analyses use [Barnum Effect](https://en.wikipedia.org/wiki/Barnum_effect), so it can be challenging to determine a preson's constellation from a single sentance.
