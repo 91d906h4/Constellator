@@ -150,14 +150,15 @@
                 // Destroy graph if exist.
                 if (myChart) myChart.destroy();
 
-                var array = text_to_arr(array);
-
-                if (array == -1) {
+                // Return if got empty input.
+                if (text_input.value == "") {
                     waiting_text.setAttribute("hidden", true);
-                    
-                    // Return if input text is empty.
+                    alert("請輸入提示文字！");
+
                     return;
                 }
+
+                var array = text_to_arr(array);
 
                 var data = await run_ai(array);
 
@@ -169,11 +170,6 @@
             function text_to_arr() {
                 var array = Array();
                 var padding = word2index["<PAD>"];
-
-                if (text_input.value == "") {
-                    alert("請輸入提示文字！");
-                    return -1;
-                }
 
                 // Using Jieba to split text.
                 call_jieba_cut(text_input.value, function (result) {
