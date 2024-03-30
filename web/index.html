@@ -50,14 +50,40 @@
 
             <hr />
 
-            <div>
-                <h3>常見問題</h3>
-                <h5>1. 為什麼跑出來結果都一樣？</h5>
-                <p>您可能正在使用 Safari 或其他不支援的瀏覽器。<strong>建議使用安裝 Windows 之桌上型或筆記型電腦</strong>。</p>
-                <h5>2. 為什麼跑這麼久？</h5>
-                <p>Constellator AI 是使用 ONNX Runtime 技術將 AI 模型載入到您的裝置上執行，因此<strong>執行速度取決於您的 CPU 速度</strong>。</p>
-                <h5>3. 分析結果準確嗎？</h5>
-                <p>分析結果僅供參考及娛樂，<strong>並不保證 100% 準確</strong>。</p>
+            <div class="accordion" id="ac-mother">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ac-item-1" aria-expanded="false" aria-controls="ac-item-1">
+                            使用方法
+                        </button>
+                    </div>
+                    <div id="ac-item-1" class="accordion-collapse collapse" data-bs-parent="#ac-mother">                        
+                        <div class="accordion-body">
+                            <h5>1. 輸入提示字元</h5>
+                            <p>在文字輸入框中輸入最多 32 個字，<strong>完整的句子是最理想的</strong>，像是：「神秘內斂，充滿了熱情和直覺，擁有強烈的意志力和洞察力」；當然，也可以只輸入關鍵字，像是「活潑、衝動、自信、領導力」。</p>
+                            <h5>2. 按下「分析！」</h5>
+                            <p>
+                                按下「分析！」後會出現「AI 分析中...」，請靜待 AI 分析結果。<br />
+                                （如果一直沒有出現結果，請參閱「常見問題」）
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ac-item-2" aria-expanded="false" aria-controls="ac-item-2">
+                            常見問題
+                        </button>
+                    </div>
+                    <div id="ac-item-2" class="accordion-collapse collapse" data-bs-parent="#ac-mother">
+                        <div class="accordion-body">
+                            <h5>1. 為什麼跑這麼久？</h5>
+                            <p>Constellator AI 是使用 ONNX Runtime 技術將 AI 模型載入到您的裝置上執行，因此執行速度取決於您的 CPU 速度，<strong>建議使用桌上型或筆記型電腦</strong>。</p>
+                            <h5>2. 分析結果準確嗎？</h5>
+                            <p>分析結果僅供參考及娛樂，<strong>並不保證 100% 準確</strong>。</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -79,7 +105,7 @@
 
         <script>
             async function share() {
-                const url = window.location.origin;
+                const url = window.location.href;
 
                 if (navigator.share) {
                     await navigator.share({
@@ -110,6 +136,7 @@
                     "敏感善良，充滿了同情心和想像力，常常是理想主義者和夢想家，追求著內心的情感和精神實踐。",
                 ];
 
+                // Randomly select an example.
                 text_input.value = description[Math.floor(Math.random() * description.length)];
             }
         </script>
@@ -141,6 +168,7 @@
         <script>
             function text_to_arr() {
                 var array = Array();
+                var padding = word2index["<PAD>"];
 
                 if (text_input.value == "") {
                     alert("請輸入提示文字！");
@@ -150,31 +178,36 @@
                 // Using Jieba to split text.
                 call_jieba_cut(text_input.value, function (result) {
                     result.forEach((e) => {
-                        if (word2index[e] == undefined) array.push(word2index["<PAD>"]);
+                        if (word2index[e] == undefined) array.push(padding);
                         else array.push(word2index[e]);
                     });
                 });
 
                 // If Jieba didn't work correctly, use alternative function to split text.
                 if (array.length == 0) {
-                    let i = 0;
+                    // In Chinese, most words is 4 characters or less, so we set the max match
+                    // length to 4.
+                    let max_match = 4, i = 0;
 
                     try {
                         while (i < text_input.value.length) {
-                            let c = false;
-                            for (let j = 4; j > 0; j--) {
+                            let matched = false;
+
+                            for (let j = max_match; j > 0; j--) {
                                 let temp = text_input.value.slice(i, i + j);
+
+                                // Check if word exists.
                                 if (temp in word2index) {
                                     array.push(word2index[temp]);
                                     i += j;
-                                    c = true;
+                                    matched = true;
                                     break;
                                 }
                             }
 
                             // If didn't match any word, use <PAD>.
-                            if (!c) {
-                                array.push(word2index["<PAD>"]);
+                            if (!matched) {
+                                array.push(padding);
                                 i++;
                             }
                         }
@@ -185,7 +218,7 @@
                 }
 
                 while (array.length < 32) {
-                    array.push(word2index["<PAD>"]);
+                    array.push(padding);
                 }
 
                 return array.slice(0, 32);
@@ -252,7 +285,7 @@
                 const data = {
                     labels: labels,
                     datasets: [{
-                        label: '星座元素分析%',
+                        label: '星座元素分析(%)',
                         data: array,
                         fill: true,
                     }]
