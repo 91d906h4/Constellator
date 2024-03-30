@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <header>
@@ -23,12 +24,13 @@
 
     <body class="d-flex flex-column min-vh-100">
         <div class="container-fluid p-4 bg-primary text-white text-center">
-            <h1>星座分析 AI</h1>
+            <h1><a href="/" class="text-decoration-none text-white">星座分析 AI</a></h1>
             <p>輸入一段文字描述，AI 會幫你分析星座！</p>
             <a href="https://github.com/91d906h4/Constellator" target="_blank" class="btn btn-warning text-white">GitHub</a>
+            <a onclick="share();" target="_blank" class="btn btn-warning text-white">Share</a>
         </div>
 
-        <div class="container mb-5">
+        <div class="container">
             <div class="input-group mt-5 mb-1">
                 <input id="text_input" placeholder="最多可以輸入 32 個字" class="form-control" />
                 <button id="test_button" type="button" onclick="main();" class="btn btn-primary">分析！</button>
@@ -38,11 +40,25 @@
                 <span onclick="random_example();" style="cursor: pointer;" class="text-primary text-decoration-underline">不知道要輸入什麼？產生隨機例句！</span>
             </div>
 
-            <div class="text-center">
+            <div class="text-center mb-5">
                 <h4 id="waiting_text" hidden>AI 分析中...</h4>
                 <h4 id="analysis_result" hidden></h4>
-                <p ></p>
-                <canvas id="chart"></canvas>
+                <br />
+                <div style="max-width: 600px;" class="text-center mx-auto">
+                    <canvas id="chart"></canvas>
+                </div>
+            </div>
+
+            <hr />
+
+            <div>
+                <h3>常見問題</h3>
+                <h5>1. 為什麼跑出來結果都一樣？</h5>
+                <p>您可能正在使用 Safari 或其他不支援的瀏覽器。<strong>建議使用安裝 Windows 之桌上型或筆記型電腦</strong>。</p>
+                <h5>2. 為什麼跑這麼久？</h5>
+                <p>Constellator AI 是使用 ONNX Runtime 技術將 AI 模型載入到您的裝置上執行，因此<strong>執行速度取決於您的 CPU 速度</strong>。</p>
+                <h5>3. 分析結果準確嗎？</h5>
+                <p>分析結果僅供參考及娛樂，<strong>並不保證 100% 準確</strong>。</p>
             </div>
         </div>
 
@@ -60,6 +76,22 @@
             const waiting_text = document.getElementById("waiting_text");
             const analysis_result = document.getElementById("analysis_result");
             const text_input = document.getElementById("text_input");
+        </script>
+
+        <script>
+            async function share() {
+                const url = window.location.origin;
+
+                if (navigator.share) {
+                    await navigator.share({
+                        url,                        
+                    });
+                }
+                else {
+                    await navigator.clipboard.writeText(url);
+                    alert("URL 複製成功！");
+                }
+            }
         </script>
 
         <script>
@@ -94,15 +126,27 @@
 
                 var array = text_to_arr(array);
 
+                if (array == -1) {
+                    waiting_text.setAttribute("hidden", true);
+                    
+                    // Return if input text is empty.
+                    return;
+                }
+
                 var data = await run_ai(array);
 
-                draw_graph(data);
+                var _ = draw_graph(data);
             }
         </script>
 
         <script>
             function text_to_arr() {
                 var array = Array();
+
+                if (text_input.value == "") {
+                    alert("請輸入提示文字！");
+                    return -1;
+                }
 
                 // Using Jieba to split text.
                 call_jieba_cut(text_input.value, function (result) {
@@ -111,6 +155,35 @@
                         else array.push(word2index[e]);
                     });
                 });
+
+                // If Jieba didn't work correctly, use alternative function to split text.
+                if (array.length == 0) {
+                    let i = 0;
+
+                    try {
+                        while (i < text_input.value.length) {
+                            let c = false;
+                            for (let j = 4; j > 0; j--) {
+                                let temp = text_input.value.slice(i, i + j);
+                                if (temp in word2index) {
+                                    array.push(word2index[temp]);
+                                    i += j;
+                                    c = true;
+                                    break;
+                                }
+                            }
+
+                            // If didn't match any word, use <PAD>.
+                            if (!c) {
+                                array.push(word2index["<PAD>"]);
+                                i++;
+                            }
+                        }
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                }
 
                 while (array.length < 32) {
                     array.push(word2index["<PAD>"]);
@@ -180,7 +253,7 @@
                 const data = {
                     labels: labels,
                     datasets: [{
-                        label: '星座元素分析',
+                        label: '星座元素分析%',
                         data: array,
                         fill: true,
                     }]
