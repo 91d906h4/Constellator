@@ -8,7 +8,7 @@ A text-based constellation analysis AI.
 2. Input a prompt string like "神秘內斂，充滿了熱情和直覺，擁有強烈的意志力和洞察力".
 3. Press "分析！" button, then you will get the result like this:
 
-<div style="text-align: center;">
+<div align="center">
     <img src="./asset/image.png" />
 </div>
 
