@@ -161,6 +161,7 @@ class Data:
         - data
         - token_len
         """
+
         if option == "data":
             return self.dataset
         if option == "token_len":
