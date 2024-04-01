@@ -1,6 +1,11 @@
 import jieba
 import random
 
+# Set random seed.
+random_seed = 0
+
+random.seed(random_seed)
+
 class Data:
     r"""
     Input data should be a dict.
@@ -101,9 +106,12 @@ class Data:
 
             for token in jieba.cut(sentance):
                 # Remove keywords.
-                # There are two names of Aries in Chinese, one is 白羊座,
-                # the other is 牡羊座, so we need to remove both of them.
-                if token in set(["白羊座", "牡羊座", "金牛座", "雙子座", "巨蟹座", "獅子座", "處女座", "天秤座", "天蠍座", "射手座", "摩羯座", "水瓶座", "雙魚座"]): continue
+                if token in set([
+                    "白羊座", "牡羊座", "金牛座", "雙子座",
+                    "巨蟹座", "巨蠍座", "獅子座", "處女座",
+                    "天秤座", "天蠍座", "射手座", "摩羯座",
+                    "水瓶座", "雙魚座"
+                ]): continue
 
                 self.tokens.add(token)
                 temp.append(token)
@@ -134,7 +142,7 @@ class Data:
         # Output word2index dict.
         with open("./word2index.txt", "+w") as f:
             for _, k in enumerate(self.w2i):
-                f.write(f"\"{k}\": {self.w2i[k]},\n")
+                f.write(f"\"{k}\":{self.w2i[k]},")
 
         for sentance, index in self.dataset:
             temp = []
