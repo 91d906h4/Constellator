@@ -47,7 +47,7 @@ function text_to_arr() {
         });
     });
 
-    // If Jieba didn't work correctly, use alternative function to split text.
+    // If Jieba didn't work correctly, use alternative tokenizer..
     if (array.length == 0) {
         // In Chinese, most words is 4 characters or less, so we set the max match
         // length to 4.
