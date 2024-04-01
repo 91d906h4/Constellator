@@ -86,15 +86,18 @@ class Data:
             result.append([sentance, index])
 
             # Generate new data.
-            d1 = sentance.split("，")
-            random.shuffle(d1)
-            d1 = "，".join(d1)
-            result.append([d1, index])
+            sentance = sentance.replace("，", "$$").replace("、", "$$")
+            sentance = sentance.split("$$")
 
-            d2 = sentance.split("、")
-            random.shuffle(d2)
-            d2 = "、".join(d2)
-            result.append([d2, index])
+            if len(sentance) == 2:
+                temp = sentance[1] + "、" + sentance[0]
+                result.append([temp, index])
+            else:
+                for _ in range(2):
+                    temp = sentance
+                    random.shuffle(temp)
+                    temp = "，".join(temp)
+                    result.append([temp, index])
 
         self.dataset = result
 
