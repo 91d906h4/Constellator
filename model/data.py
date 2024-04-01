@@ -2,7 +2,7 @@ import jieba
 import random
 
 # Set random seed.
-random_seed = 0
+random_seed = 0 
 
 random.seed(random_seed)
 
