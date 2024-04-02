@@ -143,7 +143,7 @@ class Data:
         self.w2i = {word: index for index, word in enumerate(self.tokens)}
 
         # Output word2index dict.
-        with open("./word2index.txt", "+w") as f:
+        with open("./word2index.txt", "+w", encoding="UTF-8") as f:
             for _, k in enumerate(self.w2i):
                 f.write(f"\"{k}\":{self.w2i[k]},")
 
