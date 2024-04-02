@@ -9,8 +9,28 @@ A text-based constellation analysis AI.
 3. Press "分析！" button, then you will get the result like this:
 
 <div align="center">
-    <img src="./asset/image.png" />
+    <img src="./asset/demo.png" />
 </div>
+
+## Model
+
+The machine learning model is designed to analyze the astrological sign of people by a single sentance.
+
+### Architecture Components
+
+<div align="center">
+    <img src="./asset/architecture.png" />
+</div>
+
+### Training Process
+
+1. Loss Function
+
+The loss function is the cross-entropy loss function.
+
+2. Optimizer
+
+The optimizer is SGD optimizer with a learning rate of 0.01.
 
 ## Barnum Effect
 
