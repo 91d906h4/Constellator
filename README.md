@@ -16,7 +16,9 @@ A text-based constellation analysis AI.
 
 The machine learning model is designed to analyze the astrological sign of people by a single sentance.
 
-### Architecture Components
+### Architecture
+
+The following is the architecture of Constellator.
 
 <div align="center">
     <img src="./asset/architecture.png" />
