@@ -20,9 +20,12 @@ The machine learning model is designed to analyze the astrological sign of peopl
 
 The following is the architecture of Constellator. It employs an architecture that integrates Bidirectional Long Short-Term Memory (LSTM) and Self-Attention mechanisms.
 
-<div align="center">
-    <img src="./asset/architecture.png" />
-</div>
+<details>
+    <summary>Architecture</summary>
+    <div align="center">
+        <img src="./asset/architecture.png" />
+    </div>
+</details>
 
 ### Training Process
 
