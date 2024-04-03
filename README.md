@@ -36,7 +36,7 @@ The optimizer is SGD optimizer with a learning rate of 0.01.
 
 ## Barnum Effect
 
-Many (almost all) astrological analyses use [Barnum Effect](https://en.wikipedia.org/wiki/Barnum_effect), so it can be challenging to determine a preson's constellation from a single sentance.
+Many (almost all) astrological analyses use Barum Effct, so it can be challenging to determine a preson's constellation from a single sentance.
 
 Here are some sentances descripbing your personality using Barnum Effect:
 
@@ -53,3 +53,8 @@ Here are some sentances descripbing your personality using Barnum Effect:
 11. At times you are extroverted, affable, sociable, while at other times you are introverted, wary, reserved.
 12. Some of your aspirations tend to be pretty unrealistic.
 13. Security is one of your major goals in life.
+
+## References
+
+1. [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
+2. [Barnum Effect](https://en.wikipedia.org/wiki/Barnum_effect)
