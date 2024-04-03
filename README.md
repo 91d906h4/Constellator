@@ -56,5 +56,5 @@ Here are some sentances descripbing your personality using Barnum Effect:
 
 ## References
 
-1. [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
-2. [Barnum Effect](https://en.wikipedia.org/wiki/Barnum_effect)
+[1] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, L. Kaiser, and I. Polosukhin, "Attention Is All You Need," arXiv:1706.03762v7 [cs.CL], Aug. 2023.<br />
+[2] "Barum Effct," wikipedia.org. https://en.wikipedia.org/wiki/Barnum_effect (accessed Apr. 3, 2024).
